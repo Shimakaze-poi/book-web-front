@@ -1,0 +1,20 @@
+#closeRecommendBut
+{
+    float: right;
+}
+
+#writeContentBut
+{
+    /*margin-left: 30px;*/
+    margin-left: 330px;
+}
+
+.closeDetailsBut
+{
+    margin: auto 15px auto auto;
+}
+
+.accountOptionBut
+{
+    margin-left: 15px;
+}

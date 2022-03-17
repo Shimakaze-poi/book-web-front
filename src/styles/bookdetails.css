@@ -1,0 +1,79 @@
+#bookDetails
+{
+    height: auto;
+    /*display: flex;*/
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 90px;
+    /*padding-bottom: 15px;*/
+}
+
+#bookTitleDisplay
+{
+    margin-left: 15px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+#bookTopInformation
+{
+    background-color: white;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    margin-bottom: 15px;
+    border: 0 solid white;
+    border-radius: 20px;
+    box-shadow:
+            -2px 0 3px -1px #808080,
+            0 -2px 3px -1px #808080,
+            0 2px 3px -1px #808080,
+            2px 0 3px -1px #808080;
+}
+
+#bookContent
+{
+    background-color: white;
+    width: 100%;
+    height: auto;
+    /*display: flex;*/
+    margin-bottom: 15px;
+    border: 0 solid white;
+    border-radius: 20px;
+    box-shadow:
+            -2px 0 3px -1px #808080,
+            0 -2px 3px -1px #808080,
+            0 2px 3px -1px #808080,
+            2px 0 3px -1px #808080;
+}
+
+#bookContentBox
+{
+    padding: 15px;
+}
+
+#bookRoot
+{
+    background-color: white;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    margin-bottom: 15px;
+    border: 0 solid white;
+    border-radius: 20px;
+    box-shadow:
+            -2px 0 3px -1px #808080,
+            0 -2px 3px -1px #808080,
+            0 2px 3px -1px #808080,
+            2px 0 3px -1px #808080;
+}
+
+#bookRootLeft
+{
+    margin: auto;
+}
+
+#bookRootRight
+{
+    margin: auto;
+}

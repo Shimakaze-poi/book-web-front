@@ -1,0 +1,25 @@
+.secondOptions
+{
+    height: 70px;
+    /*border: 1px solid red;*/
+    border-bottom: 1px solid #808080;
+    display: flex;
+}
+
+.overview
+{
+    height: calc(100% - 70px);
+    /*border: 1px solid red;*/
+}
+
+.secondOptionsBox
+{
+    margin-left: 15px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+#drawer
+{
+    z-index: 10000;
+}

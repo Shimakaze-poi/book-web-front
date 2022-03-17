@@ -1,0 +1,21 @@
+#comments
+{
+    height: auto;
+    /*display: flex;*/
+    margin-left: 15%;
+    margin-right: 15%;
+    background-color: white;
+    margin-bottom: 15px;
+    border: 0 solid white;
+    border-radius: 20px;
+    box-shadow:
+            -2px 0 3px -1px #808080,
+            0 -2px 3px -1px #808080,
+            0 2px 3px -1px #808080,
+            2px 0 3px -1px #808080;
+}
+
+#commentsbox
+{
+    margin: 15px 39px;
+}

@@ -1,0 +1,72 @@
+#bar
+{
+    background-color: white;
+    height: 60px;
+    display: flex;
+    /*margin-top: 15px;*/
+    margin-left: 10%;
+    margin-right: 10%;
+    border: 0 solid white;
+    border-radius: 20px;
+    box-shadow:
+        -2px 0 3px -1px #808080,
+        0 -2px 3px -1px #808080,
+        0 2px 3px -1px #808080,
+        2px 0 3px -1px #808080;
+    position: fixed;
+    top: 15px;
+    width: 80%;
+    min-width: 1200px;
+    z-index: 9000;
+}
+
+#websiteIcon
+{
+    width: 5%;
+    display: flex;
+    /*border: 1px solid red;*/
+}
+
+#icon
+{
+    width: 50px;
+    height: 50px;
+    margin: auto;
+    /*border: 1px solid red;*/
+}
+
+#mainOptions
+{
+    width: 25%;
+    /*border: 1px solid red;*/
+    display: flex;
+}
+
+#mainOptionsBox
+{
+    margin: auto;
+}
+
+#mainSearchAndEdit
+{
+    width: 50%;
+    display: flex;
+    /*border: 1px solid red;*/
+}
+
+#searchAndEditBox
+{
+    margin: auto;
+}
+
+#accountObjects
+{
+    width: 25%;
+    /*border: 1px solid red;*/
+    display: flex;
+}
+
+#accountOptionsBox
+{
+    margin: auto 15px auto auto;
+}

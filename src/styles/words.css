@@ -1,0 +1,54 @@
+#recommendTitle
+{
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+#recommendBookInfo
+{
+    font-size: 17px;
+    margin-top: 15px;
+}
+
+#recommendBookIntro
+{
+    margin-left: 15px;
+    margin-right: 15px;
+    text-indent: 2em;
+    color: darkmagenta;
+}
+
+#contentTitle
+{
+    padding-top: 15px;
+    margin-bottom: 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#contentType
+{
+    color: grey;
+    margin-bottom: 0;
+}
+
+#declaration
+{
+    margin-left: 15px;
+    color: red;
+    font-weight: bold;
+}
+
+#content
+{
+    font-size: 17px;
+    font-weight: normal;
+    white-space: pre-wrap;
+}
+
+#contentTitleOnOverview
+{
+    font-size: 17px;
+    font-weight: bold;
+}
