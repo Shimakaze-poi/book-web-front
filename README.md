@@ -4,5 +4,5 @@
 ①配置public/config.js文件</br>
 ②配置package.json文件</br>
 ③使用npm install命令安装必要的依赖</br>
-④使用npm start命令移动前端服务</br></br>
+④使用npm start命令启动前端服务</br></br>
 数据正常加载需要搭配后端及数据库服务(详见book-web-back项目)
