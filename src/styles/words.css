@@ -52,3 +52,26 @@
     font-size: 17px;
     font-weight: bold;
 }
+
+#userName
+{
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 150px;
+    line-height: 40px;
+}
+
+#userUid
+{
+    margin-left: 15px;
+    color: grey;
+    line-height: 40px;
+}
+
+#userSignature
+{
+    position: absolute;
+    margin-left: 150px;
+    margin-top: 40px;
+    line-height: 30px;
+}

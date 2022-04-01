@@ -17,7 +17,8 @@ import {
     LOGIN_IN,
     LOGIN_OUT,
     CHANGE_ARTICLE,
-    NO_CHANGE_ARTICLE
+    NO_CHANGE_ARTICLE,
+    CHANGE_TO_USER_CENTRE
 } from './actionTypes'
 
 const defaultState = {
@@ -31,6 +32,8 @@ const defaultState = {
     isShowBookDetails: false,
     isShowAuthorDetails: false,
     isShowComments: false,
+    isChangeArticle: false,
+    isShowUserCentre: false,
     articleList: [],
     bookList: [],
     commentList: [],
@@ -43,8 +46,7 @@ const defaultState = {
     isShowBeforeLogin: true,
     isShowAfterLogin: false,
     currentAccount: '',
-    canEditAuthorName: true,
-    isChangeArticle: false
+    canEditAuthorName: true
 };
 
 // eslint-disable-next-line
@@ -85,6 +87,7 @@ export default (state = defaultState, action) =>
     {
         let newState = Object.assign({}, state);
         newState.currentMainOption = action.key;
+        newState.isShowUserCentre = false;
         switch (action.key)
         {
             case '综合':
@@ -230,6 +233,22 @@ export default (state = defaultState, action) =>
     if (action.type === NO_CHANGE_ARTICLE)
     {
         let newState = Object.assign({}, state);
+        newState.isChangeArticle = false;
+        return newState;
+    }
+    if (action.type === CHANGE_TO_USER_CENTRE)
+    {
+        let newState = Object.assign({}, state);
+        newState.isShowUserCentre = true;
+        newState.isShowEditArticlePage = false;
+        newState.isShowInformation = true;
+        newState.isShowArticle = false;
+        newState.isShowBook = false;
+        newState.isShowAuthor = false;
+        newState.isShowArticleDetails = false;
+        newState.isShowBookDetails = false;
+        newState.isShowAuthorDetails = false;
+        newState.isShowComments = false;
         newState.isChangeArticle = false;
         return newState;
     }

@@ -17,3 +17,4 @@ export const LOGIN_IN = 'loginIn';
 export const LOGIN_OUT = 'loginOut';
 export const CHANGE_ARTICLE = 'changeArticle';
 export const NO_CHANGE_ARTICLE = 'noChangeArticle';
+export const CHANGE_TO_USER_CENTRE = 'changeToUserCentre';

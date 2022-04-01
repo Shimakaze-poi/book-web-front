@@ -4,7 +4,13 @@ import './styles/buttons.css'
 import {Button, Modal, Input, Space, message} from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import store from "./store";
-import {actionChangeLoginPage, actionLoginIn, actionLoginOut} from "./store/actionCreators";
+import {
+    actionChangeInformationLeft,
+    actionChangeLoginPage,
+    actionChangeToUserCentre,
+    actionLoginIn,
+    actionLoginOut
+} from "./store/actionCreators";
 import axios from "axios";
 import {CSSTransition} from "react-transition-group";
 import { JSEncrypt } from 'jsencrypt'
@@ -61,7 +67,7 @@ class AccountObjects extends Component
                             登出
                         </Button>
                     </CSSTransition>
-                    <CSSTransition in={this.state.isShowBeforeLogin} timeout={500} classNames="dom" unmountOnExit>
+                    <CSSTransition in={this.state.isShowBeforeLogin} timeout={0} classNames="dom" unmountOnExit>
                         <Button className={'accountOptionBut'} type="dashed" shape={'round'}
                                 onClick={() => this.setModalVisible(true)}>
                             登录/注册
@@ -237,6 +243,11 @@ class AccountObjects extends Component
     {
         const action = actionLoginOut();
         store.dispatch(action);
+        if (this.state.isShowUserCentre === true)
+        {
+            const action = actionChangeInformationLeft("综合");
+            store.dispatch(action);
+        }
         message.info({
             content: '已登出',
             style: {marginTop: '9vh'}
@@ -245,7 +256,8 @@ class AccountObjects extends Component
 
     openAccountDetails()
     {
-
+        const action = actionChangeToUserCentre();
+        store.dispatch(action);
     }
 
     storeChange()

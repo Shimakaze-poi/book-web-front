@@ -2,11 +2,16 @@
 {
     /*background-color: antiquewhite;*/
     height: auto;
-    display: flex;
+    /*display: flex;*/
     margin-left: 15%;
     margin-right: 15%;
     margin-top: 90px;
     padding-bottom: 15px;
+}
+
+#informationBox
+{
+    display: flex;
 }
 
 #informationLeft

@@ -32,6 +32,13 @@ class Homepage extends Component
         store.subscribe(this.storeChange);
     }
 
+    componentWillUnmount = () =>
+    {
+        this.setState = (state, callback) =>
+        {
+        };
+    }
+
     render()
     {
         return (

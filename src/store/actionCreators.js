@@ -17,7 +17,7 @@ import {
     LOGIN_IN,
     LOGIN_OUT,
     CHANGE_ARTICLE,
-    NO_CHANGE_ARTICLE
+    NO_CHANGE_ARTICLE, CHANGE_TO_USER_CENTRE
 } from './actionTypes'
 
 export const actionChangeToWrite = () => ({
@@ -106,4 +106,8 @@ export const actionChangeArticle = () => ({
 
 export const actionNoChangeArticle = () => ({
     type: NO_CHANGE_ARTICLE
+});
+
+export const actionChangeToUserCentre = () => ({
+    type: CHANGE_TO_USER_CENTRE
 });

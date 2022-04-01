@@ -18,3 +18,11 @@
 {
     margin-left: 15px;
 }
+
+#editAccountDataBut
+{
+    margin-right: 15px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}

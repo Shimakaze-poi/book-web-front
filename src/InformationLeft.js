@@ -9,6 +9,7 @@ import AuthorOptions from "./AuthorOptions";
 import AuthorOverview from "./AuthorOverview";
 import {CSSTransition} from "react-transition-group";
 import store from "./store";
+import UserOptions from "./UserOptions";
 
 class InformationLeft extends Component
 {
@@ -38,6 +39,10 @@ class InformationLeft extends Component
                     BookOverview 书单总览
                     AuthorOptions 作家二级导航
                     AuthorOverview 作家总览 */}
+                <CSSTransition in={this.state.isShowUserCentre} timeout={0} classNames="dom" unmountOnExit>
+                    <UserOptions />
+                </CSSTransition>
+
                 <CSSTransition in={this.state.isShowArticle} timeout={0} classNames="dom" unmountOnExit>
                     <ArticleOptions />
                 </CSSTransition>

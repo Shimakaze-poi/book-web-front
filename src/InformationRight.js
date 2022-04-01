@@ -5,6 +5,7 @@ import Recommend from "./Recommend";
 import MainFoot from "./MainFoot";
 import {CSSTransition} from "react-transition-group";
 import store from "./store";
+import UserAchievement from "./UserAchievement";
 
 class InformationRight extends Component
 {
@@ -30,6 +31,9 @@ class InformationRight extends Component
             <div id={'informationRight'}>
                 {/* Recommend 推荐内容
                     MainFoot 页脚信息 */}
+                <CSSTransition in={this.state.isShowUserCentre} timeout={0} classNames="dom" unmountOnExit>
+                    <UserAchievement />
+                </CSSTransition>
                 <CSSTransition in={this.state.isShowRecommend} timeout={500} classNames="dom" unmountOnExit>
                     <Recommend/>
                 </CSSTransition>
