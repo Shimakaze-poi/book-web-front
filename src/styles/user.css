@@ -21,6 +21,7 @@
 #userAchievement
 {
     height: 300px;
+    padding-bottom: 15px;
     margin-bottom: 15px;
     /*border: 1px solid red;*/
     background-color: white;
@@ -31,4 +32,10 @@
             0 -2px 3px -1px #808080,
             0 2px 3px -1px #808080,
             2px 0 3px -1px #808080;
+}
+
+#userAchievementBox
+{
+    padding-left: 15px;
+    padding-right: 15px;
 }

@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import store from "./store";
+import {Menu} from "antd";
+import './styles/informationleft.css'
 
 class UserOptions extends Component
 {
@@ -21,11 +23,34 @@ class UserOptions extends Component
     render()
     {
         return (
-            <div>
-                <h1>用户内容导航栏</h1>
+            <div className={'secondOptions'}>
+                <div className={'secondOptionsBox'}>
+                    <Menu onClick={this.handleClick} selectedKeys={[this.state.currentSecondOption]} mode="horizontal">
+                        <Menu.Item key="动态">
+                            动态
+                        </Menu.Item>
+                        <Menu.Item key="文章">
+                            文章
+                        </Menu.Item>
+                        <Menu.Item key="评论">
+                            评论
+                        </Menu.Item>
+                        <Menu.Item key="收藏">
+                            收藏
+                        </Menu.Item>
+                        <Menu.Item key="交流">
+                            交流
+                        </Menu.Item>
+                    </Menu>
+                </div>
             </div>
         );
     }
+
+    handleClick = e =>
+    {
+
+    };
 
     storeChange()
     {
