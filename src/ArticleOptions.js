@@ -45,13 +45,25 @@ class ArticleOptions extends Component
     onSearch = value =>
     {
         let searchMethod = ({
+            id: this.state.currentAccount.id,
             title: value
         });
-        axios.post(this.address + '/article/search', searchMethod).then((res) =>
+        if (this.state.isShowUserCentre)
         {
-            const action = actionUpdateArticles(res.data);
-            store.dispatch(action);
-        });
+            axios.post(this.address + '/article/searchuser', searchMethod).then((res) =>
+            {
+                const action = actionUpdateArticles(res.data);
+                store.dispatch(action);
+            });
+        }
+        else
+        {
+            axios.post(this.address + '/article/search', searchMethod).then((res) =>
+            {
+                const action = actionUpdateArticles(res.data);
+                store.dispatch(action);
+            });
+        }
     }
 }
 

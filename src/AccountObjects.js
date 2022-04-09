@@ -9,7 +9,7 @@ import {
     actionChangeLoginPage,
     actionChangeToUserCentre,
     actionLoginIn,
-    actionLoginOut
+    actionLoginOut, actionUpdateArticles
 } from "./store/actionCreators";
 import axios from "axios";
 import {CSSTransition} from "react-transition-group";
@@ -247,6 +247,11 @@ class AccountObjects extends Component
         {
             const action = actionChangeInformationLeft("综合");
             store.dispatch(action);
+            axios.get(this.address + '/article/findall').then((res) =>
+            {
+                const action = actionUpdateArticles(res.data);
+                store.dispatch(action);
+            });
         }
         message.info({
             content: '已登出',
@@ -258,6 +263,7 @@ class AccountObjects extends Component
     {
         const action = actionChangeToUserCentre();
         store.dispatch(action);
+        window.scrollTo(0, 0);
     }
 
     storeChange()

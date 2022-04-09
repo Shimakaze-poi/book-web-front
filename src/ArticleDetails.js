@@ -9,7 +9,6 @@ import {
     actionChangeArticle, actionChangeToWrite,
     actionOpenComments,
     actionUnselectContent,
-    actionUpdateArticles
 } from "./store/actionCreators";
 import axios from "axios";
 import {CSSTransition} from "react-transition-group";
@@ -129,11 +128,11 @@ class ArticleDetails extends Component
     {
         const action = actionUnselectContent();
         store.dispatch(action);
-        axios.get(this.address + '/article/findall').then((res) =>
+        /*axios.get(this.address + '/article/findall').then((res) =>
         {
             const action = actionUpdateArticles(res.data);
             store.dispatch(action);
-        });
+        });*/
     }
 
     changeApproval(num)

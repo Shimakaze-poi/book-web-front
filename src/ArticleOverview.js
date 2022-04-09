@@ -28,11 +28,14 @@ class ArticleOverview extends Component
 
     componentDidMount()
     {
-        axios.get(this.address + '/article/findall').then((res) =>
+        if (this.state.isFirstUpdateArticle)
         {
-            const action = actionUpdateArticles(res.data);
-            store.dispatch(action);
-        });
+            axios.get(this.address + '/article/findall').then((res) =>
+            {
+                const action = actionUpdateArticles(res.data);
+                store.dispatch(action);
+            });
+        }
     }
 
     componentWillUnmount = () =>

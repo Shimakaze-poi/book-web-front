@@ -4,7 +4,8 @@ import './styles/navigationbar.css'
 import 'antd/dist/antd.css'
 import {Menu} from "antd";
 import store from "./store";
-import {actionChangeInformationLeft } from "./store/actionCreators";
+import {actionChangeInformationLeft, actionUpdateArticles} from "./store/actionCreators";
+import axios from "axios";
 
 class MainOptions extends Component
 {
@@ -14,12 +15,28 @@ class MainOptions extends Component
         this.state = store.getState();
         this.storeChange = this.storeChange.bind(this);
         store.subscribe(this.storeChange);
+        this.address = this.$config.backIp + ":" + this.$config.backPort;
+    }
+
+    componentWillUnmount = () =>
+    {
+        this.setState = (state, callback) =>
+        {
+        };
     }
 
     handleClick = e =>
     {
         const action = actionChangeInformationLeft(e.key);
         store.dispatch(action);
+        if (e.key === "综合")
+        {
+            axios.get(this.address + '/article/findall').then((res) =>
+            {
+                const action = actionUpdateArticles(res.data);
+                store.dispatch(action);
+            });
+        }
     };
 
     render()

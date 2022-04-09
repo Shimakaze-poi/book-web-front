@@ -18,10 +18,11 @@ import {
     LOGIN_OUT,
     CHANGE_ARTICLE,
     NO_CHANGE_ARTICLE,
-    CHANGE_TO_USER_CENTRE
+    CHANGE_TO_USER_CENTRE, CHANGE_USER_CENTRE_TYPES
 } from './actionTypes'
 
 const defaultState = {
+    isFirstUpdateArticle: true,
     isShowInformation: true,
     isShowEditArticlePage: false,
     isShowRecommend: true,
@@ -81,6 +82,10 @@ export default (state = defaultState, action) =>
     {
         let newState = Object.assign({}, state);
         newState.articleList = action.articleList;
+        if (state.isFirstUpdateArticle)
+        {
+            newState.isFirstUpdateArticle = false;
+        }
         return newState;
     }
     if (action.type === CHANGE_INFORMATION_LEFT)
@@ -250,6 +255,21 @@ export default (state = defaultState, action) =>
         newState.isShowAuthorDetails = false;
         newState.isShowComments = false;
         newState.isChangeArticle = false;
+        return newState;
+    }
+    if (action.type === CHANGE_USER_CENTRE_TYPES)
+    {
+        let newState = Object.assign({}, state);
+        newState.currentSecondOption = action.key;
+        switch (action.key)
+        {
+            case '文章':
+                newState.isShowArticle = true;
+                newState.isShowArticleDetails = false;
+                newState.isShowComments = false;
+                break;
+            default:
+        }
         return newState;
     }
     return state;
