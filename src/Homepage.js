@@ -27,7 +27,6 @@ class Homepage extends Component
     {
         super(props);
         this.state = store.getState();
-        // 订阅store更改
         this.storeChange = this.storeChange.bind(this);
         store.subscribe(this.storeChange);
     }
@@ -45,6 +44,7 @@ class Homepage extends Component
             <Fragment>
                 {/* NavigationBar 导航栏
                     ArticleDetails 文章详情
+                    BookDetails 书籍详情
                     Comments 评论
                     ContentInformation 主要内容
                     EditArticle 撰文 */}

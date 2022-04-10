@@ -12,7 +12,6 @@ class ContentInformation extends Component
     {
         super(props);
         this.state = store.getState();
-        // 订阅store更改
         this.storeChange = this.storeChange.bind(this);
         store.subscribe(this.storeChange);
     }

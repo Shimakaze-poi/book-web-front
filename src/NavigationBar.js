@@ -6,12 +6,6 @@ import AccountObjects from "./AccountObjects";
 
 class NavigationBar extends Component
 {
-    constructor(props)
-    {
-        super(props);
-        this.refresh = this.refresh.bind(this);
-    }
-
     render()
     {
         return (
@@ -21,7 +15,7 @@ class NavigationBar extends Component
                     MainSearchAndEdit 搜索、写文章
                     AccountObjects 用户相关 */}
                 <div id={'websiteIcon'}>
-                    <img id={'icon'} src={require('./imgs/logo192.png').default} onClick={this.refresh} alt={'四月鱼'} />
+                    <img id={'icon'} src={require('./imgs/logo192.png').default} onClick={() => this.refresh()} alt={'四月鱼'} />
                 </div>
                 <MainOptions />
                 <MainSearchAndEdit />

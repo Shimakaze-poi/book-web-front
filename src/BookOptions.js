@@ -13,42 +13,7 @@ class BookOptions extends Component
         this.state = store.getState();
         this.storeChange = this.storeChange.bind(this);
         store.subscribe(this.storeChange);
-        this.updateBooks = this.updateBooks.bind(this);
         this.address = this.$config.backIp + ":" + this.$config.backPort;
-    }
-
-    handleClick = e =>
-    {
-        const action = actionChangeBookTypes(e.key);
-        store.dispatch(action);
-        setTimeout(() => {
-            this.updateBooks();
-        });
-    };
-
-    updateBooks()
-    {
-        if (this.state.currentSecondOption === '全部')
-        {
-            axios.get(this.address + '/book/findall').then((res) =>
-            {
-                const action = actionUpdateBooks(res.data);
-                store.dispatch(action);
-                console.log(res.data);
-            });
-        }
-        else
-        {
-            let listBooks = ({
-                contenttype: this.state.currentSecondOption
-            });
-            axios.post(this.address + '/book/find', listBooks).then((res) =>
-            {
-                const action = actionUpdateBooks(res.data);
-                store.dispatch(action);
-                console.log(res.data);
-            });
-        }
     }
 
     componentWillUnmount = () =>
@@ -86,6 +51,40 @@ class BookOptions extends Component
                 </div>
             </div>
         );
+    }
+
+    //修改显示的书籍类别
+    handleClick = e =>
+    {
+        const action = actionChangeBookTypes(e.key);
+        store.dispatch(action);
+        setTimeout(() => {
+            this.updateBooks();
+        });
+    };
+
+    //更新书籍
+    updateBooks()
+    {
+        if (this.state.currentSecondOption === '全部')
+        {
+            axios.get(this.address + '/book/findall').then((res) =>
+            {
+                const action = actionUpdateBooks(res.data);
+                store.dispatch(action);
+            });
+        }
+        else
+        {
+            let listBooks = ({
+                contenttype: this.state.currentSecondOption
+            });
+            axios.post(this.address + '/book/find', listBooks).then((res) =>
+            {
+                const action = actionUpdateBooks(res.data);
+                store.dispatch(action);
+            });
+        }
     }
 
     storeChange()

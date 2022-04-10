@@ -9,12 +9,6 @@ import { actionChangeToWrite } from "./store/actionCreators"
 
 class MainSearchAndEdit extends Component
 {
-    constructor(props)
-    {
-        super(props);
-        this.changeToWrite = this.changeToWrite.bind(this);
-    }
-
     render()
     {
         return (
@@ -22,7 +16,7 @@ class MainSearchAndEdit extends Component
                 <div id={'searchAndEditBox'}>
                     <img alt={'导航栏图片'} width={100} height={60} src={"https://s2.loli.net/2021/12/27/TBv3DS2IVzHdOsc.gif"}/>
                     <Button id={'writeContentBut'} type={'primary'} icon={<EditOutlined/>} shape={'round'}
-                            onClick={this.changeToWrite}>撰文</Button>
+                            onClick={() => this.changeToWrite()}>撰文</Button>
                 </div>
             </div>
         );

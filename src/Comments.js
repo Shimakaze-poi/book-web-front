@@ -17,31 +17,14 @@ class Comments extends Component
         this.state = store.getState();
         this.storeChange = this.storeChange.bind(this);
         store.subscribe(this.storeChange);
-        this.changeAuthor = this.changeAuthor.bind(this);
-        this.changeComments = this.changeComments.bind(this);
-        this.updateComments = this.updateComments.bind(this);
-        this.releaseComments = this.releaseComments.bind(this);
-        this.deleteComment = this.deleteComment.bind(this);
         this.author = '';
         this.comment = '';
         this.address = this.$config.backIp + ":" + this.$config.backPort;
     }
 
-    componentDidMount()
+    componentDidMount = () =>
     {
         this.updateComments();
-    }
-
-    updateComments()
-    {
-        let findSpecialInformation = ({
-            contenttype: this.state.selectedContent.contenttype,
-            contentid: this.state.selectedContent.id
-        });
-        axios.post(this.address + '/comment/findspecial', findSpecialInformation).then((res) => {
-            const action = actionUpdateComments(res.data);
-            store.dispatch(action);
-        });
     }
 
     componentWillUnmount = () =>
@@ -60,7 +43,7 @@ class Comments extends Component
                     <TextArea onChange={this.changeComments} id={'editTextArea'} showCount maxLength={100}
                               placeholder="友善的评论是交流的起点" style={{ height: 64, marginTop: 15, marginBottom: 15 }} />
                     <Button icon={<SendOutlined/>} block type={'primary'} shape={'round'}
-                            onClick={this.releaseComments} style={{marginBottom: 15}}>发布</Button>
+                            onClick={() => this.releaseComments()} style={{marginBottom: 15}}>发布</Button>
                     <List
                         className="comment-list"
                         header={`共有${this.state.commentList.length}条评论`}
@@ -89,6 +72,30 @@ class Comments extends Component
         );
     }
 
+    changeAuthor = e =>
+    {
+        this.author = e.target.value;
+    }
+
+    changeComments = e =>
+    {
+        this.comment = e.target.value;
+    }
+
+    //更新评论
+    updateComments()
+    {
+        let findSpecialInformation = ({
+            contenttype: this.state.selectedContent.contenttype,
+            contentid: this.state.selectedContent.id
+        });
+        axios.post(this.address + '/comment/findspecial', findSpecialInformation).then((res) => {
+            const action = actionUpdateComments(res.data);
+            store.dispatch(action);
+        });
+    }
+
+    //删除评论
     deleteComment(id)
     {
         let deleteMethod = ({
@@ -104,21 +111,7 @@ class Comments extends Component
         }, 1000)
     }
 
-    storeChange()
-    {
-        this.setState(store.getState());
-    }
-
-    changeAuthor = e =>
-    {
-        this.author = e.target.value;
-    }
-
-    changeComments = e =>
-    {
-        this.comment = e.target.value;
-    }
-
+    //发布评论
     releaseComments()
     {
         if (!this.state.canEditAuthorName)
@@ -163,6 +156,11 @@ class Comments extends Component
                 this.updateComments();
             }, 1000)
         }
+    }
+
+    storeChange()
+    {
+        this.setState(store.getState());
     }
 }
 

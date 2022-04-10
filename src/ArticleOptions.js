@@ -13,7 +13,6 @@ class ArticleOptions extends Component
         this.state = store.getState();
         this.storeChange = this.storeChange.bind(this);
         store.subscribe(this.storeChange);
-        this.onSearch = this.onSearch.bind(this);
         this.address = this.$config.backIp + ":" + this.$config.backPort;
     }
 
@@ -37,11 +36,7 @@ class ArticleOptions extends Component
         );
     }
 
-    storeChange()
-    {
-        this.setState(store.getState());
-    }
-
+    //检索文章
     onSearch = value =>
     {
         let searchMethod = ({
@@ -64,6 +59,11 @@ class ArticleOptions extends Component
                 store.dispatch(action);
             });
         }
+    }
+
+    storeChange()
+    {
+        this.setState(store.getState());
     }
 }
 

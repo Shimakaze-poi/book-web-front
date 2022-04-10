@@ -4,7 +4,12 @@ import './styles/navigationbar.css'
 import 'antd/dist/antd.css'
 import {Menu} from "antd";
 import store from "./store";
-import {actionChangeInformationLeft, actionUpdateArticles} from "./store/actionCreators";
+import {
+    actionChangeInformationLeft,
+    actionUpdateArticles,
+    actionUpdateAuthors,
+    actionUpdateBooks
+} from "./store/actionCreators";
 import axios from "axios";
 
 class MainOptions extends Component
@@ -25,20 +30,6 @@ class MainOptions extends Component
         };
     }
 
-    handleClick = e =>
-    {
-        const action = actionChangeInformationLeft(e.key);
-        store.dispatch(action);
-        if (e.key === "综合")
-        {
-            axios.get(this.address + '/article/findall').then((res) =>
-            {
-                const action = actionUpdateArticles(res.data);
-                store.dispatch(action);
-            });
-        }
-    };
-
     render()
     {
         return (
@@ -54,24 +45,41 @@ class MainOptions extends Component
                         <Menu.Item key="作家">
                             作家
                         </Menu.Item>
-                        {/*<SubMenu key="书单" title="书单">*/}
-                        {/*    <Menu.Item key="全部书单">全部</Menu.Item>*/}
-                        {/*    <Menu.Item key="哲学">哲学</Menu.Item>*/}
-                        {/*    <Menu.Item key="自然应用科学">自然应用科学</Menu.Item>*/}
-                        {/*    <Menu.Item key="人文社会科学">人文社会科学</Menu.Item>*/}
-                        {/*    <Menu.Item key="文学">文学</Menu.Item>*/}
-                        {/*    <Menu.Item key="历史">历史</Menu.Item>*/}
-                        {/*</SubMenu>*/}
-                        {/*<SubMenu key="作家" title="作家">*/}
-                        {/*    <Menu.Item key="全部作家">全部</Menu.Item>*/}
-                        {/*    <Menu.Item key="中国作家">中国作家</Menu.Item>*/}
-                        {/*    <Menu.Item key="外国作家">外国作家</Menu.Item>*/}
-                        {/*</SubMenu>*/}
                     </Menu>
                 </div>
             </div>
         );
     }
+
+    //选择一级导航栏
+    handleClick = e =>
+    {
+        const action = actionChangeInformationLeft(e.key);
+        store.dispatch(action);
+        if (e.key === "综合")
+        {
+            axios.get(this.address + '/article/findall').then((res) =>
+            {
+                const action = actionUpdateArticles(res.data);
+                store.dispatch(action);
+            });
+        }
+        else if (e.key === "书单")
+        {
+            axios.get(this.address + '/book/findall').then((res) =>
+            {
+                const action = actionUpdateBooks(res.data);
+                store.dispatch(action);
+            });
+        }
+        else if (e.key === "作家")
+        {
+            axios.get(this.address + '/author/findall').then((res) => {
+                const action = actionUpdateAuthors(res.data);
+                store.dispatch(action);
+            });
+        }
+    };
 
     storeChange()
     {

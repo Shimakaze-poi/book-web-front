@@ -17,7 +17,6 @@ class InformationLeft extends Component
     {
         super(props);
         this.state = store.getState();
-        // 订阅store更改
         this.storeChange = this.storeChange.bind(this);
         store.subscribe(this.storeChange);
     }
@@ -33,7 +32,8 @@ class InformationLeft extends Component
     {
         return (
             <div id={'informationLeft'}>
-                {/* ArticleOptions 文章二级导航
+                {/* UserOptions 个人中心二级导航
+                    ArticleOptions 文章二级导航
                     ArticleOverview 文章总览
                     BookOptions 书单二级导航
                     BookOverview 书单总览

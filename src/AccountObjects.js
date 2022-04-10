@@ -27,15 +27,6 @@ class AccountObjects extends Component
         store.subscribe(this.storeChange);
         this.accountName = '';
         this.accountPwd = '';
-        this.changeAccountName = this.changeAccountName.bind(this);
-        this.changeAccountPwd = this.changeAccountPwd.bind(this);
-        this.verifyRegister = this.verifyRegister.bind(this);
-        this.searchAccount = this.searchAccount.bind(this);
-        this.addAccount = this.addAccount.bind(this);
-        this.searchAccountName = this.searchAccountName.bind(this);
-        this.verifyLogin = this.verifyLogin.bind(this);
-        this.loginOut = this.loginOut.bind(this);
-        this.openAccountDetails = this.openAccountDetails.bind(this);
         this.address = this.$config.backIp + ":" + this.$config.backPort;
         this.publicKey = this.$config.publicKey;
     }
@@ -57,13 +48,13 @@ class AccountObjects extends Component
                     </CSSTransition>
                     <CSSTransition in={this.state.isShowAfterLogin} timeout={500} classNames="dom" unmountOnExit>
                         <Button className={'accountOptionBut'} shape={'round'}
-                                onClick={this.openAccountDetails}>
+                                onClick={() => this.openAccountDetails()}>
                             个人中心
                         </Button>
                     </CSSTransition>
                     <CSSTransition in={this.state.isShowAfterLogin} timeout={500} classNames="dom" unmountOnExit>
                         <Button className={'accountOptionBut'} type="dashed" shape={'round'}
-                                onClick={this.loginOut}>
+                                onClick={() => this.loginOut()}>
                             登出
                         </Button>
                     </CSSTransition>
@@ -109,6 +100,17 @@ class AccountObjects extends Component
         );
     }
 
+    changeAccountName = e =>
+    {
+        this.accountName = e.target.value;
+    }
+
+    changeAccountPwd = e =>
+    {
+        this.accountPwd = e.target.value;
+    }
+
+    //进行注册事务的校验
     async verifyRegister()
     {
         let accountNamePattern = /^[\u4E00-\u9FA5a-zA-Z0-9_-]{2,16}$/;
@@ -158,6 +160,7 @@ class AccountObjects extends Component
         }
     }
 
+    //进行登录事务的校验
     async verifyLogin()
     {
         let account = ({
@@ -185,6 +188,7 @@ class AccountObjects extends Component
         }
     }
 
+    //校验输入的用户名密码是否匹配
     async searchAccount(account)
     {
         let result = null;
@@ -196,6 +200,7 @@ class AccountObjects extends Component
         return result;
     }
 
+    //查询该用户名是否可以注册
     async searchAccountName()
     {
         let result = false;
@@ -210,6 +215,7 @@ class AccountObjects extends Component
         return result;
     }
 
+    //提交注册信息
     addAccount()
     {
         let encryptor = new JSEncrypt();
@@ -223,22 +229,7 @@ class AccountObjects extends Component
         axios.post(this.address + '/account/add', account);
     }
 
-    changeAccountName = e =>
-    {
-        this.accountName = e.target.value;
-    }
-
-    changeAccountPwd = e =>
-    {
-        this.accountPwd = e.target.value;
-    }
-
-    setModalVisible(modalVisible)
-    {
-        const action = actionChangeLoginPage(modalVisible);
-        store.dispatch(action);
-    }
-
+    //登出
     loginOut()
     {
         const action = actionLoginOut();
@@ -259,11 +250,19 @@ class AccountObjects extends Component
         });
     }
 
+    //打开个人中心
     openAccountDetails()
     {
         const action = actionChangeToUserCentre();
         store.dispatch(action);
         window.scrollTo(0, 0);
+    }
+
+    //设置登录注册提示框的可见性
+    setModalVisible(modalVisible)
+    {
+        const action = actionChangeLoginPage(modalVisible);
+        store.dispatch(action);
     }
 
     storeChange()

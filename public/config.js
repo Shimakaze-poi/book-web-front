@@ -1,3 +1,8 @@
+/*
+* backIp:后端服务地址
+* backPort:后端服务端口
+* publicKey:RSA公钥
+*/
 window.config = {
     backIp : "http://localhost",
     backPort: "8181",

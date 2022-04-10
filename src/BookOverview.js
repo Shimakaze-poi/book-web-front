@@ -15,34 +15,12 @@ class BookOverview extends Component
         this.state = store.getState();
         this.storeChange = this.storeChange.bind(this);
         store.subscribe(this.storeChange);
-        this.updateBooks = this.updateBooks.bind(this);
-        this.selectContent = this.selectContent.bind(this);
         this.address = this.$config.backIp + ":" + this.$config.backPort;
     }
 
-    componentDidMount()
+    componentDidMount = () =>
     {
         this.updateBooks();
-    }
-
-    updateBooks()
-    {
-        axios.get(this.address + '/book/findall').then((res) =>
-        {
-            const action = actionUpdateBooks(res.data);
-            store.dispatch(action);
-        });
-        // else
-        // {
-        //     let listBooks = ({
-        //         booktype: this.state.currentMainOption
-        //     });
-        //     axios.post('http://localhost:8181/book/find', listBooks).then((res) =>
-        //     {
-        //         const action = actionUpdateBooks(res.data);
-        //         store.dispatch(action);
-        //     });
-        // }
     }
 
     componentWillUnmount = () =>
@@ -70,9 +48,7 @@ class BookOverview extends Component
                     renderItem={item => (
                         <List.Item>
                             <Card
-                                // style={{ width: 227 }}
                                 hoverable
-                                // cover={<img alt="封面" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
                                 cover={<img alt="封面" src={item.imageurl === '' ? 'https://s2.loli.net/2021/12/23/X9JdjKG2urvbx5W.jpg' : item.imageurl} />}
                                 onClick={() => {this.selectContent(item); window.scrollTo(0, 0)}}
                             >
@@ -87,16 +63,26 @@ class BookOverview extends Component
         );
     }
 
-    storeChange()
+    //更新书籍
+    updateBooks()
     {
-        this.setState(store.getState());
+        axios.get(this.address + '/book/findall').then((res) =>
+        {
+            const action = actionUpdateBooks(res.data);
+            store.dispatch(action);
+        });
     }
 
-    // 选中文章跳转到详情界面
+    // 选中书籍跳转到详情界面
     selectContent(content)
     {
         const action = actionSelectContent(content, 'book');
         store.dispatch(action);
+    }
+
+    storeChange()
+    {
+        this.setState(store.getState());
     }
 }
 

@@ -13,41 +13,7 @@ class AuthorOptions extends Component
         this.state = store.getState();
         this.storeChange = this.storeChange.bind(this);
         store.subscribe(this.storeChange);
-        this.updateAuthors = this.updateAuthors.bind(this);
         this.address = this.$config.backIp + ":" + this.$config.backPort;
-    }
-
-    handleClick = e =>
-    {
-        const action = actionChangeAuthorTypes(e.key);
-        store.dispatch(action);
-        setTimeout(() => {
-            this.updateAuthors();
-        });
-    };
-
-    updateAuthors()
-    {
-        if (this.state.currentSecondOption === '全部')
-        {
-            axios.get(this.address + '/author/findall').then((res) =>
-            {
-                const action = actionUpdateAuthors(res.data);
-                store.dispatch(action);
-            });
-        }
-        else
-        {
-            let listAuthors = ({
-                authortype: this.state.currentSecondOption
-            });
-            axios.post(this.address + '/author/find', listAuthors).then((res) =>
-            {
-                const action = actionUpdateAuthors(res.data);
-                store.dispatch(action);
-            });
-
-        }
     }
 
     componentWillUnmount = () =>
@@ -76,6 +42,41 @@ class AuthorOptions extends Component
                 </div>
             </div>
         );
+    }
+
+    //修改展示的作家类别
+    handleClick = e =>
+    {
+        const action = actionChangeAuthorTypes(e.key);
+        store.dispatch(action);
+        setTimeout(() => {
+            this.updateAuthors();
+        });
+    };
+
+    //更新作家信息
+    updateAuthors()
+    {
+        if (this.state.currentSecondOption === '全部')
+        {
+            axios.get(this.address + '/author/findall').then((res) =>
+            {
+                const action = actionUpdateAuthors(res.data);
+                store.dispatch(action);
+            });
+        }
+        else
+        {
+            let listAuthors = ({
+                authortype: this.state.currentSecondOption
+            });
+            axios.post(this.address + '/author/find', listAuthors).then((res) =>
+            {
+                const action = actionUpdateAuthors(res.data);
+                store.dispatch(action);
+            });
+
+        }
     }
 
     storeChange()

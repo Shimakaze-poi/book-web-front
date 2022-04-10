@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {QuestionOutlined, RollbackOutlined, SendOutlined, ReloadOutlined} from "@ant-design/icons";
 import store from "./store";
-import {actionChangeToSyn, actionNoChangeArticle} from "./store/actionCreators"
+import {actionChangeToSyn, actionNoChangeArticle, actionUpdateArticles} from "./store/actionCreators"
 import './styles/editarticle.css'
 import {Input, Cascader, Switch, Select, Popover, Button, message} from 'antd';
 import axios from "axios";
@@ -63,16 +63,6 @@ class EditArticle extends Component
         this.content = this.state.isChangeArticle ? this.state.selectedContent.content : '';
         this.declaration = '';
         this.isAnonymous = false;
-        this.changeToSyn = this.changeToSyn.bind(this);
-        this.releaseArticle = this.releaseArticle.bind(this);
-        this.changeTitle = this.changeTitle.bind(this);
-        this.changeType = this.changeType.bind(this);
-        this.changeContent = this.changeContent.bind(this);
-        this.changeDeclaration = this.changeDeclaration.bind(this);
-        this.changeSwitch = this.changeSwitch.bind(this);
-        this.changeAuthor = this.changeAuthor.bind(this);
-        this.changeArticle = this.changeArticle.bind(this);
-        this.verifyArticle = this.verifyArticle.bind(this);
         this.address = this.$config.backIp + ":" + this.$config.backPort;
     }
 
@@ -105,19 +95,19 @@ class EditArticle extends Component
                         <Popover content={content} title="什么是「创作声明」？" trigger="hover">
                             <QuestionOutlined />
                         </Popover>
-                        <Switch onClick={this.changeSwitch} checkedChildren="匿名" unCheckedChildren="不匿名" style={{ width: 70, marginLeft: 30 }} />
+                        <Switch onClick={() => this.changeSwitch()} checkedChildren="匿名" unCheckedChildren="不匿名" style={{ width: 70, marginLeft: 30 }} />
                     </div>
                     <div className={'editOptionsBox'}>
-                        <Button icon={<RollbackOutlined/>} shape={'round'} onClick={this.changeToSyn}>取消</Button>
+                        <Button icon={<RollbackOutlined/>} shape={'round'} onClick={() => this.changeToSyn()}>取消</Button>
                         <CSSTransition in={this.state.isChangeArticle} timeout={0} classNames="dom" unmountOnExit>
                             <Button icon={<ReloadOutlined/>} type={'primary'} shape={'round'} style={{marginLeft: 15}}
-                                    onClick={this.changeArticle}>
+                                    onClick={() => this.changeArticle()}>
                                 更新
                             </Button>
                         </CSSTransition>
                         <CSSTransition in={!this.state.isChangeArticle} timeout={0} classNames="dom" unmountOnExit>
                             <Button icon={<SendOutlined/>} type={'primary'} shape={'round'} style={{marginLeft: 15}}
-                                    onClick={this.releaseArticle}>
+                                    onClick={() => this.releaseArticle()}>
                                 发布
                             </Button>
                         </CSSTransition>
@@ -127,6 +117,38 @@ class EditArticle extends Component
         );
     }
 
+    changeAuthor = e =>
+    {
+        this.author = e.target.value;
+    }
+
+    changeTitle = e =>
+    {
+        this.title = e.target.value;
+    }
+
+    changeType = value =>
+    {
+        this.type = value;
+    }
+
+    changeContent = e =>
+    {
+        this.content = e.target.value;
+    }
+
+    changeDeclaration = value =>
+    {
+        this.declaration = value;
+    }
+
+    //更改匿名状态
+    changeSwitch()
+    {
+        this.isAnonymous = !this.isAnonymous;
+    }
+
+    //校验文章
     verifyArticle()
     {
         if (!this.state.canEditAuthorName)
@@ -168,6 +190,7 @@ class EditArticle extends Component
         return true;
     }
 
+    //更新文章
     changeArticle()
     {
         if (this.verifyArticle())
@@ -190,46 +213,12 @@ class EditArticle extends Component
                 content: '正在更新...',
                 style: {marginTop: '10vh'}
             });
+            window.scrollTo(0, 0);
             axios.post(this.address + '/article/add', newArticle);
             setTimeout(() => {
                 this.changeToSyn();
             }, 1000)
         }
-    }
-
-    storeChange()
-    {
-        this.setState(store.getState());
-    }
-
-    changeAuthor = e =>
-    {
-        this.author = e.target.value;
-    }
-
-    changeTitle = e =>
-    {
-        this.title = e.target.value;
-    }
-
-    changeType(value)
-    {
-        this.type = value;
-    }
-
-    changeContent = e =>
-    {
-        this.content = e.target.value;
-    }
-
-    changeDeclaration(value)
-    {
-        this.declaration = value;
-    }
-
-    changeSwitch = () =>
-    {
-        this.isAnonymous = !this.isAnonymous;
     }
 
     // 进行文章发布相关校验
@@ -266,10 +255,34 @@ class EditArticle extends Component
     // 进行返回到主界面的组件切换
     changeToSyn()
     {
+        if (this.state.isShowUserCentre)
+        {
+            let searchMethod = ({
+                id: this.state.currentAccount.id
+            });
+            axios.post(this.address + '/article/user', searchMethod).then((res) =>
+            {
+                const action = actionUpdateArticles(res.data);
+                store.dispatch(action);
+            });
+        }
+        else
+        {
+            axios.get(this.address + '/article/findall').then((res) =>
+            {
+                const action = actionUpdateArticles(res.data);
+                store.dispatch(action);
+            });
+        }
         const action = actionNoChangeArticle();
         store.dispatch(action);
         const action2 = actionChangeToSyn();
         store.dispatch(action2);
+    }
+
+    storeChange()
+    {
+        this.setState(store.getState());
     }
 }
 

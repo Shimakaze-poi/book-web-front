@@ -22,10 +22,10 @@ class ArticleOverview extends Component
         this.state = store.getState();
         this.storeChange = this.storeChange.bind(this);
         store.subscribe(this.storeChange);
-        this.selectContent = this.selectContent.bind(this);
         this.address = this.$config.backIp + ":" + this.$config.backPort;
     }
 
+    //首次加载自动更新文章
     componentDidMount()
     {
         if (this.state.isFirstUpdateArticle)
@@ -72,7 +72,6 @@ class ArticleOverview extends Component
                                 <img
                                     width={272}
                                     alt="logo"
-                                    // src="https://s2.loli.net/2021/12/23/X9JdjKG2urvbx5W.jpg"
                                     src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
                                 />
                             }
@@ -89,16 +88,16 @@ class ArticleOverview extends Component
         );
     }
 
-    storeChange()
-    {
-        this.setState(store.getState());
-    }
-
-    // 选中文章跳转到详情界面
+    //选中文章跳转到详情界面
     selectContent(content)
     {
         const action = actionSelectContent(content, 'article');
         store.dispatch(action);
+    }
+
+    storeChange()
+    {
+        this.setState(store.getState());
     }
 }
 

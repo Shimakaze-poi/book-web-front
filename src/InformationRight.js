@@ -13,7 +13,6 @@ class InformationRight extends Component
     {
         super(props);
         this.state = store.getState();
-        // 订阅store更改
         this.storeChange = this.storeChange.bind(this);
         store.subscribe(this.storeChange);
     }
@@ -29,7 +28,8 @@ class InformationRight extends Component
     {
         return (
             <div id={'informationRight'}>
-                {/* Recommend 推荐内容
+                {/* UserAchievement 个人成就
+                    Recommend 推荐内容
                     MainFoot 页脚信息 */}
                 <CSSTransition in={this.state.isShowUserCentre} timeout={0} classNames="dom" unmountOnExit>
                     <UserAchievement />

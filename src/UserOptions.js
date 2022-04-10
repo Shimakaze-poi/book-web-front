@@ -13,7 +13,6 @@ class UserOptions extends Component
         this.state = store.getState();
         this.storeChange = this.storeChange.bind(this);
         store.subscribe(this.storeChange);
-        this.updateArticles = this.updateArticles.bind(this);
         this.address = this.$config.backIp + ":" + this.$config.backPort;
     }
 
@@ -51,6 +50,7 @@ class UserOptions extends Component
         );
     }
 
+    //个人中心二级导航栏选择
     handleClick = e =>
     {
         const action = actionChangeUserCentreTypes(e.key);
@@ -61,11 +61,7 @@ class UserOptions extends Component
         }
     };
 
-    storeChange()
-    {
-        this.setState(store.getState());
-    }
-
+    //更新个人文章
     updateArticles()
     {
         let searchMethod = ({
@@ -76,6 +72,11 @@ class UserOptions extends Component
             const action = actionUpdateArticles(res.data);
             store.dispatch(action);
         });
+    }
+
+    storeChange()
+    {
+        this.setState(store.getState());
     }
 }
 

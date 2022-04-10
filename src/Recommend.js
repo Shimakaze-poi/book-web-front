@@ -20,7 +20,6 @@ class Recommend extends Component
             recommendBookIntro: '',
             recommendBookImgUrl: ''
         });
-        this.closeRecommend = this.closeRecommend.bind(this);
         this.address = this.$config.backIp + ":" + this.$config.backPort;
     }
 
@@ -41,7 +40,7 @@ class Recommend extends Component
         return (
             <div id={'recommend'}>
                 <Button id={'closeRecommendBut'} icon={<CloseOutlined/>} shape={'round'}
-                        onClick={this.closeRecommend}>关闭</Button>
+                        onClick={() => this.closeRecommend()}>关闭</Button>
                 <div id={'recommendBox'}>
                     <p id={'recommendTitle'}>本周推荐书籍</p>
                     <img alt={'每周推荐'} width={200} src={this.state.recommendBookImgUrl}/>

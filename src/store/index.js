@@ -1,5 +1,3 @@
-// 这里是仓库，reducer理解为管理员
-
 import {createStore} from "redux";
 import reducer from "./reducer";
 

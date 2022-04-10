@@ -13,12 +13,8 @@ class BookDetails extends Component
     {
         super(props);
         this.state = store.getState();
-        // 订阅store更改
         this.storeChange = this.storeChange.bind(this);
         store.subscribe(this.storeChange);
-        this.closeBookDetails = this.closeBookDetails.bind(this);
-        this.openComments = this.openComments.bind(this);
-        this.rateInfo = this.rateInfo.bind(this);
         this.address = this.$config.backIp + ":" + this.$config.backPort;
     }
 
@@ -36,7 +32,7 @@ class BookDetails extends Component
                 <div id={'bookTopInformation'}>
                     <b id={'bookTitleDisplay'}>{this.state.selectedContent.name + "————" + this.state.selectedContent.shortintro}</b>
                     <Button className={'closeDetailsBut'} icon={<CloseOutlined/>} shape={'round'}
-                            onClick={this.closeBookDetails}>关闭</Button>
+                            onClick={() => this.closeBookDetails()}>关闭</Button>
                 </div>
                 <div id={'bookContent'}>
                     <div id={'bookContentBox'}>
@@ -59,7 +55,7 @@ class BookDetails extends Component
                     </div>
                     <div id={'bookRootRight'}>
                         <Button icon={<MenuUnfoldOutlined/>} type={'primary'} shape={'round'}
-                                onClick={this.openComments}>
+                                onClick={() => this.openComments()}>
                             展开/收起评论
                         </Button>
                     </div>
@@ -68,11 +64,18 @@ class BookDetails extends Component
         );
     }
 
-    storeChange()
+    //更改书籍评分
+    handleRateChange = value =>
     {
-        this.setState(store.getState());
-    }
+        this.rateInfo();
+        let changeScoreInformation = ({
+            id: this.state.selectedContent.id,
+            score: value
+        });
+        axios.post(this.address + '/book/rate', changeScoreInformation);
+    };
 
+    //关闭书籍详情页面
     closeBookDetails()
     {
         const action = actionUnselectContent();
@@ -83,7 +86,6 @@ class BookDetails extends Component
             {
                 const action = actionUpdateBooks(res.data);
                 store.dispatch(action);
-                console.log(res.data);
             });
         }
         else
@@ -95,27 +97,18 @@ class BookDetails extends Component
             {
                 const action = actionUpdateBooks(res.data);
                 store.dispatch(action);
-                console.log(res.data);
             });
         }
     }
 
+    //展开/收起评论
     openComments()
     {
         const action = actionOpenComments();
         store.dispatch(action);
     }
 
-    handleRateChange = value =>
-    {
-        this.rateInfo();
-        let changeScoreInformation = ({
-            id: this.state.selectedContent.id,
-            score: value
-        });
-        axios.post(this.address + '/book/rate', changeScoreInformation);
-    };
-
+    //评分后页面上方提示信息
     rateInfo()
     {
         message.info({
@@ -125,6 +118,11 @@ class BookDetails extends Component
                 marginTop: '10vh',
             },
         });
+    }
+
+    storeChange()
+    {
+        this.setState(store.getState());
     }
 }
 

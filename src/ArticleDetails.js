@@ -8,7 +8,7 @@ import {Button, message, Avatar} from "antd";
 import {
     actionChangeArticle, actionChangeToWrite,
     actionOpenComments,
-    actionUnselectContent,
+    actionUnselectContent, actionUpdateArticles,
 } from "./store/actionCreators";
 import axios from "axios";
 import {CSSTransition} from "react-transition-group";
@@ -19,16 +19,8 @@ class ArticleDetails extends Component
     {
         super(props);
         this.state = store.getState();
-        // 订阅store更改
         this.storeChange = this.storeChange.bind(this);
         store.subscribe(this.storeChange);
-        this.closeArticleDetails = this.closeArticleDetails.bind(this);
-        this.changeApproval = this.changeApproval.bind(this);
-        this.approvalInfo = this.approvalInfo.bind(this);
-        this.disApprovalInfo = this.disApprovalInfo.bind(this);
-        this.openComments = this.openComments.bind(this);
-        this.deleteArticle = this.deleteArticle.bind(this);
-        this.changeArticle = this.changeArticle.bind(this);
         this.address = this.$config.backIp + ":" + this.$config.backPort;
     }
 
@@ -48,18 +40,18 @@ class ArticleDetails extends Component
                     <b id={'articleAuthorDisplay'}>{this.state.selectedContent.author + " " + (this.state.selectedContent.authorid === 0 ? '' : (this.state.selectedContent.author === '四月鱼' ? '' : "(uid=" + this.state.selectedContent.authorid + ")"))}</b>
                     <CSSTransition in={this.state.selectedContent.authorid === this.state.currentAccount.id} timeout={0} classNames="dom" unmountOnExit>
                         <Button icon={<EditOutlined/>} shape={'round'} style={{marginTop: 'auto', marginBottom: 'auto', marginRight: 0, marginLeft: 'auto'}}
-                                onClick={this.changeArticle}>
+                                onClick={() => this.changeArticle()}>
                             修改
                         </Button>
                     </CSSTransition>
                     <CSSTransition in={this.state.selectedContent.authorid === this.state.currentAccount.id} timeout={0} classNames="dom" unmountOnExit>
                         <Button icon={<CloseOutlined/>} shape={'round'} style={{marginTop: 'auto', marginBottom: 'auto', marginRight: 0, marginLeft: 'auto'}}
-                                onClick={this.deleteArticle}>
+                                onClick={() => this.deleteArticle()}>
                             删除
                         </Button>
                     </CSSTransition>
                     <Button className={'closeDetailsBut'} icon={<CloseOutlined/>} shape={'round'}
-                            onClick={this.closeArticleDetails}>关闭</Button>
+                            onClick={() => this.closeArticleDetails()}>关闭</Button>
                 </div>
                 <div id={'articleContent'}>
                     <div id={'articleContentHeadBox'}>
@@ -87,7 +79,7 @@ class ArticleDetails extends Component
                     <div id={'articleRootRight'}>
                         <b>{this.state.selectedContent.publishdate}</b>
                         <Button icon={<MenuUnfoldOutlined/>} type={'primary'} shape={'round'} style={{marginLeft: 15}}
-                                onClick={this.openComments}>
+                                onClick={() => this.openComments()}>
                             展开/收起评论
                         </Button>
                     </div>
@@ -96,6 +88,7 @@ class ArticleDetails extends Component
         );
     }
 
+    //修改文章
     changeArticle()
     {
         const action = actionChangeArticle();
@@ -104,6 +97,7 @@ class ArticleDetails extends Component
         store.dispatch(action2);
     }
 
+    //删除文章
     deleteArticle()
     {
         let deleteMethod = ({
@@ -119,22 +113,33 @@ class ArticleDetails extends Component
         }, 1000)
     }
 
-    storeChange()
-    {
-        this.setState(store.getState());
-    }
-
+    //关闭文章详情页面
     closeArticleDetails()
     {
+        if (this.state.isShowUserCentre)
+        {
+            let searchMethod = ({
+                id: this.state.currentAccount.id
+            });
+            axios.post(this.address + '/article/user', searchMethod).then((res) =>
+            {
+                const action = actionUpdateArticles(res.data);
+                store.dispatch(action);
+            });
+        }
+        else
+        {
+            axios.get(this.address + '/article/findall').then((res) =>
+            {
+                const action = actionUpdateArticles(res.data);
+                store.dispatch(action);
+            });
+        }
         const action = actionUnselectContent();
         store.dispatch(action);
-        /*axios.get(this.address + '/article/findall').then((res) =>
-        {
-            const action = actionUpdateArticles(res.data);
-            store.dispatch(action);
-        });*/
     }
 
+    //赞同/反对
     changeApproval(num)
     {
         let changeApprovalInformation = ({
@@ -144,6 +149,7 @@ class ArticleDetails extends Component
         axios.post(this.address + '/article/changeapproval', changeApprovalInformation);
     }
 
+    //页面上方弹出赞同提示
     approvalInfo(author)
     {
         message.info({
@@ -155,6 +161,7 @@ class ArticleDetails extends Component
         });
     }
 
+    //页面上方弹出反对提示
     disApprovalInfo(author)
     {
         message.info({
@@ -166,10 +173,16 @@ class ArticleDetails extends Component
         });
     }
 
+    //展开评论
     openComments()
     {
         const action = actionOpenComments();
         store.dispatch(action);
+    }
+
+    storeChange()
+    {
+        this.setState(store.getState());
     }
 }
 
