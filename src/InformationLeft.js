@@ -10,6 +10,7 @@ import AuthorOverview from "./AuthorOverview";
 import {CSSTransition} from "react-transition-group";
 import store from "./store";
 import UserOptions from "./UserOptions";
+import UserComments from "./UserComments";
 
 class InformationLeft extends Component
 {
@@ -33,6 +34,7 @@ class InformationLeft extends Component
         return (
             <div id={'informationLeft'}>
                 {/* UserOptions 个人中心二级导航
+                    UserComments 个人中心用户评论
                     ArticleOptions 文章二级导航
                     ArticleOverview 文章总览
                     BookOptions 书单二级导航
@@ -41,6 +43,9 @@ class InformationLeft extends Component
                     AuthorOverview 作家总览 */}
                 <CSSTransition in={this.state.isShowUserCentre} timeout={0} classNames="dom" unmountOnExit>
                     <UserOptions />
+                </CSSTransition>
+                <CSSTransition in={this.state.isShowUserComments} timeout={0} classNames="dom" unmountOnExit>
+                    <UserComments />
                 </CSSTransition>
 
                 <CSSTransition in={this.state.isShowArticle} timeout={0} classNames="dom" unmountOnExit>

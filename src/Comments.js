@@ -19,11 +19,23 @@ class Comments extends Component
         store.subscribe(this.storeChange);
         this.author = '';
         this.comment = '';
+        this.contentName = "";
+        this.contentType = "";
         this.address = this.$config.backIp + ":" + this.$config.backPort;
     }
 
     componentDidMount = () =>
     {
+        if (this.state.selectedContent.contenttype === "随想" || this.state.selectedContent.contenttype === "书评")
+        {
+            this.contentName = this.state.selectedContent.title;
+            this.contentType = "文章";
+        }
+        else
+        {
+            this.contentName = this.state.selectedContent.name;
+            this.contentType = "书籍";
+        }
         this.updateComments();
     }
 
@@ -86,7 +98,7 @@ class Comments extends Component
     updateComments()
     {
         let findSpecialInformation = ({
-            contenttype: this.state.selectedContent.contenttype,
+            contenttype: this.contentType,
             contentid: this.state.selectedContent.id
         });
         axios.post(this.address + '/comment/findspecial', findSpecialInformation).then((res) => {
@@ -141,11 +153,12 @@ class Comments extends Component
             let newComment = ({
                 id: null,
                 author: this.author,
-                contenttype: this.state.selectedContent.contenttype,
+                contenttype: this.contentType,
                 contentid: this.state.selectedContent.id,
                 comment: this.comment,
                 publishdate: date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate(),
-                authorid: this.state.canEditAuthorName ? 0 : this.state.currentAccount.id
+                authorid: this.state.canEditAuthorName ? 0 : this.state.currentAccount.id,
+                contentname: this.contentName
             });
             message.info({
                 content: '正在发送...',

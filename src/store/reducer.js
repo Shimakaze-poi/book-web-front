@@ -35,6 +35,7 @@ const defaultState = {
     isShowComments: false,
     isChangeArticle: false,
     isShowUserCentre: false,
+    isShowUserComments: false,
     articleList: [],
     bookList: [],
     commentList: [],
@@ -98,6 +99,7 @@ export default (state = defaultState, action) =>
         let newState = Object.assign({}, state);
         newState.currentMainOption = action.key;
         newState.isShowUserCentre = false;
+        newState.isShowUserComments = false;
         switch (action.key)
         {
             case '综合':
@@ -288,6 +290,13 @@ export default (state = defaultState, action) =>
                 newState.isShowArticle = true;
                 newState.isShowArticleDetails = false;
                 newState.isShowComments = false;
+                newState.isShowUserComments = false;
+                break;
+            case '评论':
+                newState.isShowArticle = false;
+                newState.isShowArticleDetails = false;
+                newState.isShowComments = false;
+                newState.isShowUserComments = true;
                 break;
             default:
         }
