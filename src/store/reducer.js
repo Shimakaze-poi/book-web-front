@@ -18,7 +18,7 @@ import {
     LOGIN_OUT,
     CHANGE_ARTICLE,
     NO_CHANGE_ARTICLE,
-    CHANGE_TO_USER_CENTRE, CHANGE_USER_CENTRE_TYPES
+    CHANGE_TO_USER_CENTRE, CHANGE_USER_CENTRE_TYPES, UPDATE_USER_COMMENTS
 } from './actionTypes'
 
 const defaultState = {
@@ -39,6 +39,7 @@ const defaultState = {
     articleList: [],
     bookList: [],
     commentList: [],
+    userCommentList: [],
     selectedContent: '',
     currentMainOption: '综合',
     currentSecondOption: '',
@@ -98,6 +99,10 @@ export default (state = defaultState, action) =>
     {
         let newState = Object.assign({}, state);
         newState.currentMainOption = action.key;
+        newState.isShowArticleDetails = false;
+        newState.isShowBookDetails = false;
+        newState.isShowAuthorDetails = false;
+        newState.isShowComments = false;
         newState.isShowUserCentre = false;
         newState.isShowUserComments = false;
         switch (action.key)
@@ -106,29 +111,17 @@ export default (state = defaultState, action) =>
                 newState.isShowArticle = true;
                 newState.isShowBook = false;
                 newState.isShowAuthor = false;
-                newState.isShowArticleDetails = false;
-                newState.isShowBookDetails = false;
-                newState.isShowAuthorDetails = false;
-                newState.isShowComments = false;
                 break;
             case '作家':
                 newState.isShowArticle = false;
                 newState.isShowBook = false;
                 newState.isShowAuthor = true;
-                newState.isShowArticleDetails = false;
-                newState.isShowBookDetails = false;
-                newState.isShowAuthorDetails = false;
-                newState.isShowComments = false;
                 newState.currentSecondOption = '全部';
                 break;
             case '书单':
                 newState.isShowArticle = false;
                 newState.isShowBook = true;
                 newState.isShowAuthor = false;
-                newState.isShowArticleDetails = false;
-                newState.isShowBookDetails = false;
-                newState.isShowAuthorDetails = false;
-                newState.isShowComments = false;
                 newState.currentSecondOption = '全部';
                 break;
             default:
@@ -183,6 +176,13 @@ export default (state = defaultState, action) =>
     {
         let newState = Object.assign({}, state);
         newState.commentList = action.commentList;
+        return newState;
+    }
+    //更新用户评论
+    if (action.type === UPDATE_USER_COMMENTS)
+    {
+        let newState = Object.assign({}, state);
+        newState.userCommentList = action.commentList;
         return newState;
     }
     //更新书籍
@@ -277,6 +277,8 @@ export default (state = defaultState, action) =>
         newState.isShowAuthorDetails = false;
         newState.isShowComments = false;
         newState.isChangeArticle = false;
+        newState.isShowUserComments = false;
+        newState.currentSecondOption = "动态";
         return newState;
     }
     //更改用户中心二级导航栏的展示内容
@@ -284,19 +286,25 @@ export default (state = defaultState, action) =>
     {
         let newState = Object.assign({}, state);
         newState.currentSecondOption = action.key;
+        newState.isShowComments = false;
         switch (action.key)
         {
             case '文章':
                 newState.isShowArticle = true;
                 newState.isShowArticleDetails = false;
-                newState.isShowComments = false;
+                newState.isShowBookDetails = false;
                 newState.isShowUserComments = false;
                 break;
             case '评论':
                 newState.isShowArticle = false;
                 newState.isShowArticleDetails = false;
-                newState.isShowComments = false;
                 newState.isShowUserComments = true;
+                break;
+            case '动态':
+                newState.isShowArticle = false;
+                newState.isShowArticleDetails = false;
+                newState.isShowBookDetails = false;
+                newState.isShowUserComments = false;
                 break;
             default:
         }

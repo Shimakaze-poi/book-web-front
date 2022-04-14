@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import store from "./store";
 import {Menu} from "antd";
 import './styles/informationleft.css'
-import {actionChangeUserCentreTypes, actionUpdateArticles} from "./store/actionCreators";
+import {actionChangeUserCentreTypes, actionUpdateArticles, actionUpdateUserComments} from "./store/actionCreators";
 import axios from "axios";
 
 class UserOptions extends Component
@@ -59,6 +59,10 @@ class UserOptions extends Component
         {
             this.updateArticles();
         }
+        else if (e.key === "评论")
+        {
+            this.updateComments();
+        }
     };
 
     //更新个人文章
@@ -70,6 +74,18 @@ class UserOptions extends Component
         axios.post(this.address + '/article/user', searchMethod).then((res) =>
         {
             const action = actionUpdateArticles(res.data);
+            store.dispatch(action);
+        });
+    }
+
+    //更新评论
+    updateComments()
+    {
+        let findSpecialInformation = ({
+            userid: this.state.currentAccount.id
+        });
+        axios.post(this.address + '/comment/finduser', findSpecialInformation).then((res) => {
+            const action = actionUpdateUserComments(res.data);
             store.dispatch(action);
         });
     }

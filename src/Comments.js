@@ -4,7 +4,7 @@ import {Button, Comment, Input, List, message} from 'antd';
 import store from "./store";
 import axios from "axios";
 import {CloseOutlined, SendOutlined} from "@ant-design/icons";
-import {actionUpdateComments} from "./store/actionCreators";
+import {actionUpdateComments, actionUpdateUserComments} from "./store/actionCreators";
 import {CSSTransition} from "react-transition-group";
 
 const { TextArea } = Input;
@@ -120,7 +120,23 @@ class Comments extends Component
         });
         setTimeout(() => {
             this.updateComments();
+            if (this.state.isShowUserComments)
+            {
+                this.updateUserComments();
+            }
         }, 1000)
+    }
+
+    //更新用户评论
+    updateUserComments()
+    {
+        let findSpecialInformation = ({
+            userid: this.state.currentAccount.id
+        });
+        axios.post(this.address + '/comment/finduser', findSpecialInformation).then((res) => {
+            const action = actionUpdateUserComments(res.data);
+            store.dispatch(action);
+        });
     }
 
     //发布评论
@@ -167,6 +183,10 @@ class Comments extends Component
             axios.post(this.address + '/comment/add', newComment);
             setTimeout(() => {
                 this.updateComments();
+                if (this.state.isShowUserComments)
+                {
+                    this.updateUserComments();
+                }
             }, 1000)
         }
     }
